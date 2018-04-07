@@ -28,7 +28,7 @@ module.exports = function (router) {
 
     router.get("/api/fetch", function (req, res) {
 
-        // scrapes articles and saves unique ones to database
+        // Scrapes articles and saves unique ones to database
         articlesController.fetch(function (err, docs) {
             //lets user know if there were new articles or not
             if (!docs || docs.insertedCount === 0) {
