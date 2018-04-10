@@ -1,3 +1,4 @@
+//DEPENDENCIES
 var scrape = require("../scripts/scrape");
 var Article = require("../models/Article");
 var Note = require("../models/Note");
@@ -6,7 +7,7 @@ var notesController = require("../controllers/notes");
 
 module.exports = function (router) {
 
-
+    //ROOT ROUTE
     router.get("/", function (req, res) {
         Article.find({
             saved: false
@@ -21,19 +22,18 @@ module.exports = function (router) {
                     articles: found
                 };
                 res.render("index", hbsObject);
-
             }
         });
     });
 
     router.get("/api/fetch", function (req, res) {
 
-        // Scrapes articles and saves unique ones to database
+        //SCRAPES ARTICLES AND SAVES EACH TO DB
         articlesController.fetch(function (err, docs) {
-            //lets user know if there were new articles or not
+            //ALERTS USER
             if (!docs || docs.insertedCount === 0) {
                 res.json({
-                    message: "No new articles today. Check back tomorrow!"
+                    message: "Scrape Completed."
                 });
             } else {
                 res.json({
@@ -44,7 +44,7 @@ module.exports = function (router) {
         });
     });
 
-    //retrieves the saved articles
+    //FETCHES SAVED ARTICLES
     router.get("/saved", function (req, res) {
 
         articlesController.get({
@@ -57,49 +57,47 @@ module.exports = function (router) {
         });
     });
 
-    //for saving or unsaving articles
+    //TO SAVE OR NOT TO SAVE, THAT IS THE QUESTION
     router.patch("/api/articles", function (req, res) {
-
         articlesController.update(req.body, function (err, data) {
-            //this gets sent back to app.js and the article is either saved or unsaved
             res.json(data);
         });
     });
 
-    //retrieve the notes attached to saved articles to be displayed in the notes modal
+    //RETRIEVES NOTES ATTACHED TO SAVED ARTICLES
     router.get('/notes/:id', function (req, res) {
-        //Query to find the matching id to the passed in it
+        //FIND MATCHING ID
         Article.findOne({
                 _id: req.params.id
             })
-            .populate("note") //Populate all of the notes associated with it
-            .exec(function (error, doc) { //execute the query
+            //POPULATE NOTES ASSOCIATED WITH ID
+            .populate("note")
+            .exec(function (error, doc) {
                 if (error) console.log(error);
-                // Otherwise, send the doc to the browser as a json object
                 else {
                     res.json(doc);
                 }
             });
     });
 
-    // Add a note to a saved article
+    //ADDS NOTE TO SAVED ARTICLE Add a note to a saved article
     router.post('/notes/:id', function (req, res) {
-        //create a new note with req.body
+        //CREATES NEW NOTE WTIH req.body
         var newNote = new Note(req.body);
-        //save newNote to the db
+        //SAVE newNote TO THE DATABASE
         newNote.save(function (err, doc) {
-            // Log any errors
             if (err) console.log(err);
-            //find and update the note
+            //FINDS AND UPDATES NOTE
             Article.findOneAndUpdate({
+                    //FINDS _id VIA req.params.id
                     _id: req.params.id
-                }, // find the _id by req.params.id
+                },
+                //PUSHES TO THE NOTES ARRAY
                 {
                     $push: {
                         note: doc._id
                     }
-                }, //push to the notes array
-                {
+                }, {
                     new: true
                 },
                 function (err, newdoc) {
@@ -109,12 +107,13 @@ module.exports = function (router) {
         });
     });
 
+    //DELETES ARTICLE
     router.get('/deleteNote/:id', function (req, res) {
         Note.remove({
             "_id": req.params.id
         }, function (err, newdoc) {
             if (err) console.log(err);
-            res.redirect('/saved'); //redirect to reload the page
+            res.redirect('/saved'); //REDIRECT RELOADS PAGE
         });
     });
 

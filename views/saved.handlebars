@@ -7,10 +7,8 @@
             </div>
             <div class="panel-body">
                 <a class="artLink" href={{link}}>{{link}}</a>
-                <!--ADD NOTES button with a data-value of the news articles id-->
-
+                <!--ADD NOTES BUTTON-->
                 <button data-id={{_id}} class="btn btn-danger pull-right removeSaved">Remove from Saved</button>
-
                 <button data-id={{_id}} class="btn btn-primary pull-right saved-buttons" id="addCheckNote" data-toggle="modal" data-target="#noteModal"
                     data-value="{{this._id}}">View/Add Notes</button>
             </div>
@@ -19,31 +17,27 @@
         <br />
 
 
-        <!-- Modal -->
+        <!--MODAL-->
         <div id="noteModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="noteModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <!--title including the id of the current article-->
                         <h4 class="modal-title" id="">
                             <b>Notes:</b>
                         </h4>
-                        <!--where notes will be displayed-->
                         <div>
                             <ul id="notesBody">
-
                             </ul>
                         </div>
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
-
                             <label for="exampleTextarea">Enter New Note</label>
-                            <!--enter note text-->
+                            <!--NOTES TEXT-->
                             <textarea class="form-control" id="notestext" rows="3"></textarea>
                         </div>
                         <div>
-                            <!--enter saved notes here-->
+                            <!--ENTER SAVED NOTES HERE-->
                         </div>
                     </div>
                     <div class="modal-footer">

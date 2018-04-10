@@ -1,3 +1,4 @@
+//DEPENDENCIES
 var scrape = require("../scripts/scrape");
 var Article = require("../models/Article");
 
@@ -7,14 +8,14 @@ module.exports = {
     scrape(function (data) {
 
       var articlesArr = data;
-      // Make sure each article object has a date and is not saved by default
+      //ENSURES EACH ARTICLE OBJECT DOES NOT SAVE BY DEFAULT
       for (var i = 0; i < articlesArr.length; i++) {
         articlesArr[i].date = new Date();
         articlesArr[i].saved = false;
         articlesArr[i].note = [];
       }
 
-      //filters the duplicate articles because the article model says the title must be unique
+      //FILTERS THE DUPLICATE ARTICLES (ARTICLE MODEL DEMANDS UNIQUE ENTRIES)
       Article.collection.insertMany(articlesArr, {
         ordered: false
       }, function (err, docs) {
@@ -23,18 +24,18 @@ module.exports = {
     });
   },
   get: function (query, cb) {
-    //query is currently hardcoded to {saved: true}
+    //QUERY IS HARDCODED TO TRUE
     Article.find(query)
       .sort({
         _id: -1
       })
       .exec(function (err, doc) {
-        //send saved articles back to routes to be rendered
+        //SEND SAVED ARTICLES BACK TO ROUTES
         cb(doc);
       });
   },
   update: function (query, cb) {
-    // saves or unsaves an article depending on the user query comes from the patch request in app.js
+    //SAVE OR UNSAVES ARTICLE BASED ON USER QUERY
     Article.update({
       _id: query.id
     }, {

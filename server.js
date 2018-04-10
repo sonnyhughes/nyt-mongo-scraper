@@ -1,26 +1,28 @@
-// Dependencies
+//DEPENDENCIES
 var express = require("express");
 var bodyParser = require("body-parser");
 var mongoose = require("mongoose");
 var exphbs = require("express-handlebars");
-// Requiring our Note and Article models
+
+//REQUIRES MODELS
 var Note = require("./models/Note.js");
 var Article = require("./models/Article.js");
-// Set mongoose to leverage built in JavaScript ES6 Promises
+
+//MONGOOSE ACCEPTS ES6 PROMISES
 mongoose.Promise = Promise;
 
-// Initialize Express
+//STARTS EXPRESS SERVER
 var app = express();
 
-// Use body parser with our app
+//USE BODY PARSER
 app.use(bodyParser.urlencoded({
   extended: false
 }));
 
-// Make public a static dir
+//SETS PUBLIC AS STATIC DIR
 app.use(express.static(process.cwd() + "/public"));
 
-// Database configuration with mongoose
+//CONFIGURES DATABASE
 var databaseUri = "mongodb://localhost/nytarticles";
 
 if (process.env.MONGODB_URI) {
@@ -39,25 +41,25 @@ db.once("open", function () {
   console.log("Connected to Mongoose.");
 });
 
-//set engine and default for handlebars
+//SETS ENGINE AND HANDLEBARS
 app.engine("handlebars", exphbs({
   defaultLayout: "main"
 }));
 app.set("view engine", "handlebars");
 
-// Import routes and give the server access to them.
+//IMPORTS ROUTES
 var router = express.Router();
 
-// Require routes file pass router object
+//REQUIRES ROUTES PASS ROUTER OBJECT
 require("./config/routes")(router);
 
-// Have every request go through router middlewar
+//USE ROUTER MIDDLEWARE
 app.use(router);
 
-//set port
+//DEFINE PORT
 var port = process.env.PORT || 3001;
 
-//setup listener
+//APP LISTENING...
 app.listen(port, function () {
   console.log("APP RUNNING ON PORT " + port);
 });

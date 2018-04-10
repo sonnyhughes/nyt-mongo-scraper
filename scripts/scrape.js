@@ -1,8 +1,8 @@
-// Our scraping tools
+//DEPENDENCIES
 var request = require("request");
 var cheerio = require("cheerio");
 
-//scrape articles from the New YorK Times
+//SCRAPE ARTICLES FROM FRONT PAGE OF NEW YORK TIMES
 var scrape = function (callback) {
 
     var articlesArr = [];
@@ -11,12 +11,11 @@ var scrape = function (callback) {
 
         var $ = cheerio.load(html);
 
-
         $("h2.story-heading").each(function (i, element) {
 
             var result = {};
 
-            // Add the text and href of every link, and save them as properties of the result object
+            //ADD THE TEXT AND LINK OF EVERY ARTICLE AND SAVE THEM AS PROPS OF result OBJECT
             result.title = $(this).children("a").text();
             result.link = $(this).children("a").attr("href");
 

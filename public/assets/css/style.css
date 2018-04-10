@@ -1,6 +1,4 @@
 body {
-	/* background-image: url(../img/nyt-newsprint.jpg);
-	background-position: center; */
 	font-family: 'Roboto', sans-serif;
 }
 
@@ -45,12 +43,6 @@ h4 {
 .deletex {
 	color: #767676;
 }
-
-/* .modal-body{
-	background-image: url(../img/nyt-modal-background.jpg);
-	background-size: cover;
-	background-position: center;
-} */
 
 .alert-warning {
 	color: #fff;
