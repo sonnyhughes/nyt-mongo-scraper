@@ -33,11 +33,11 @@ module.exports = function (router) {
             //ALERTS USER
             if (!docs || docs.insertedCount === 0) {
                 res.json({
-                    message: "Scrape Completed."
+                    message: `Scrape Completed.`
                 });
             } else {
                 res.json({
-                    message: "Added " + docs.insertedCount + " new articles!"
+                    message: `Added ${docs.insertedCount} new articles!`
                 });
 
             }
